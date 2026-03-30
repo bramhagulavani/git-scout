@@ -2,6 +2,7 @@ import { useState } from 'react';
 import axios from 'axios';
 
 const GITHUB_BASE_URL = 'https://api.github.com/users';
+const REPOS_PAGE_SIZE = 100;
 
 export function useGithub() {
   const [userData, setUserData] = useState(null);
@@ -19,7 +20,7 @@ export function useGithub() {
       // User profile and top repos are fetched in parallel to reduce waiting time.
       const [userResponse, reposResponse] = await Promise.all([
         axios.get(`${GITHUB_BASE_URL}/${username}`),
-        axios.get(`${GITHUB_BASE_URL}/${username}/repos?sort=stars&per_page=6`)
+        axios.get(`${GITHUB_BASE_URL}/${username}/repos?sort=updated&per_page=${REPOS_PAGE_SIZE}`)
       ]);
 
       setUserData(userResponse.data);
@@ -38,6 +39,12 @@ export function useGithub() {
         setError('User not found');
         setErrorType('not-found');
         return { ok: false, type: 'not-found' };
+      }
+
+      if (requestError?.response?.status === 403) {
+        setError('Rate limit exceeded');
+        setErrorType('generic');
+        return { ok: false, type: 'generic' };
       }
 
       setError('Something went wrong');

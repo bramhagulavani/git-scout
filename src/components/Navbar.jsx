@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import { Github, Star } from 'lucide-react';
+import { Crosshair, Github, Star } from 'lucide-react';
 
-function Navbar() {
+function Navbar({ onToggleCompare, compareMode = false }) {
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
@@ -24,24 +24,39 @@ function Navbar() {
           <span className="gradient-text">{'{ GitFinder }'}</span>
         </a>
 
-        <a
-          href="https://github.com"
-          target="_blank"
-          rel="noreferrer"
-          className="group inline-flex items-center gap-3 rounded-xl border border-[rgba(48,54,61,0.8)] bg-[rgba(13,17,23,0.9)] px-4 py-2 text-sm text-textSecondary transition duration-200 hover:border-[rgba(37,99,235,0.5)] hover:text-textPrimary"
-        >
-          <div className="inline-flex items-center gap-2">
-            <Github size={16} />
-            <span className="hidden sm:inline">Star on GitHub</span>
-            <span className="inline sm:hidden">Star</span>
-            <Star size={14} className="text-warning" />
-          </div>
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={onToggleCompare}
+            className={`inline-flex items-center gap-2 rounded-xl border px-3 py-2 text-sm font-medium transition duration-200 ${
+              compareMode
+                ? 'border-[rgba(37,99,235,0.5)] bg-[rgba(37,99,235,0.18)] text-textPrimary'
+                : 'border-[rgba(48,54,61,0.8)] bg-[rgba(13,17,23,0.9)] text-textSecondary hover:border-[rgba(37,99,235,0.5)] hover:text-textPrimary'
+            }`}
+          >
+            <Crosshair size={16} />
+            <span className="hidden sm:inline">Compare</span>
+          </button>
 
-          <div className="hidden items-center gap-2 rounded-full bg-[rgba(16,185,129,0.1)] px-2 py-1 text-xs text-success sm:flex">
-            <span className="api-live-dot" />
-            API Live
-          </div>
-        </a>
+          <a
+            href="https://github.com"
+            target="_blank"
+            rel="noreferrer"
+            className="group inline-flex items-center gap-3 rounded-xl border border-[rgba(48,54,61,0.8)] bg-[rgba(13,17,23,0.9)] px-4 py-2 text-sm text-textSecondary transition duration-200 hover:border-[rgba(37,99,235,0.5)] hover:text-textPrimary"
+          >
+            <div className="inline-flex items-center gap-2">
+              <Github size={16} />
+              <span className="hidden sm:inline">Star on GitHub</span>
+              <span className="inline sm:hidden">Star</span>
+              <Star size={14} className="text-warning" />
+            </div>
+
+            <div className="hidden items-center gap-2 rounded-full bg-[rgba(16,185,129,0.1)] px-2 py-1 text-xs text-success sm:flex">
+              <span className="api-live-dot" />
+              API Live
+            </div>
+          </a>
+        </div>
       </nav>
     </header>
   );

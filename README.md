@@ -1,20 +1,36 @@
-# GitFinder
+# GitScout
 
-A premium GitHub Profile Finder built with React + Vite + Tailwind CSS.
+A premium GitHub Profile Finder and comparison app built with React, Vite, and Tailwind CSS.
 
 ## Overview
-GitFinder lets you search any GitHub username and instantly view profile details in a polished, production-grade interface with glassmorphism styling, micro-animations, and robust loading/error handling.
+GitScout lets users search GitHub profiles, explore repositories with rich filtering and language insights, review recent search history, and compare two developers side by side with winner highlights.
 
-## Phase 1 Features
-- Vite + React 18 + Tailwind CSS setup
-- Hero search experience with suggestion chips
-- GitHub API integration via axios
-- Profile hero card with key user metadata
-- Reusable stat cards with animated count-up
-- Loading skeleton state
-- Error and empty states
-- Toast notifications with custom theme
-- Responsive dark UI with animated gradient orbs
+## Completed Features
+
+### Phase 1
+- Vite + React 18 + Tailwind CSS project setup
+- Premium hero search experience with suggestion chips
+- GitHub API integration through axios
+- Profile hero card with identity, bio, metadata, and stats
+- Loading skeleton, empty state, and error state
+- Toast notification system with custom styling
+- Dark glassmorphism UI with animated gradient background orbs
+
+### Phase 2
+- Repository list section with:
+	- sorting (stars, updated date, name, forks)
+	- language filter
+	- live text filtering
+	- incremental load more behavior
+- Repository cards with language dot, visibility/fork badge, stats, and copy-link action
+- Language distribution bar with animated segment fill and legend chips
+- Contribution activity summary in profile card
+- Upgraded user-not-found experience with quick-search suggestions
+- Search history dropdown powered by localStorage
+- Compare mode with side-by-side profile match-up and category winners:
+	- followers winner
+	- public repos winner
+	- total stars winner
 
 ## Tech Stack
 - React 18
@@ -25,6 +41,7 @@ GitFinder lets you search any GitHub username and instantly view profile details
 - lucide-react
 
 ## Getting Started
+
 ### 1. Install dependencies
 ```bash
 npm install
@@ -45,9 +62,15 @@ npm run build
 npm run preview
 ```
 
-## API Used
-- User profile: https://api.github.com/users/{username}
-- Top repositories preview: https://api.github.com/users/{username}/repos?sort=stars&per_page=6
+## API Endpoints Used
+- User profile:
+	- https://api.github.com/users/{username}
+- User repositories (used for repo list, language stats, compare metrics):
+	- https://api.github.com/users/{username}/repos?sort=updated&per_page=100
+
+## Persistence
+- Search history key:
+	- gitscout_search_history
 
 ## Project Structure
 ```text
@@ -58,16 +81,27 @@ src/
 │   ├── ProfileCard.jsx
 │   ├── StatCard.jsx
 │   ├── LoadingCard.jsx
-│   └── ErrorCard.jsx
+│   ├── ErrorCard.jsx
+│   ├── RepoCard.jsx
+│   ├── RepoList.jsx
+│   ├── LanguageBar.jsx
+│   ├── SearchHistory.jsx
+│   └── CompareMode.jsx
 ├── hooks/
 │   └── useGithub.js
 ├── utils/
-│   └── formatters.js
+│   ├── formatters.js
+│   └── languageColors.js
 ├── App.jsx
 ├── main.jsx
 └── index.css
 ```
 
+## Scripts
+- npm run dev: start development server
+- npm run build: generate production build
+- npm run preview: preview production build locally
+
 ## Notes
-- This repository currently includes only Phase 1 scope.
-- Repository list deep-dive and analytics are intentionally excluded in this phase.
+- Built against GitHub public REST API without auth.
+- If GitHub rate limits are reached, retry after cooldown.

@@ -1,5 +1,6 @@
-import { Building2, CalendarDays, Github, Link as LinkIcon, MapPin, Twitter } from 'lucide-react';
+import { Activity, Building2, CalendarDays, Github, Link as LinkIcon, MapPin, Swords, Twitter } from 'lucide-react';
 import StatCard from './StatCard';
+import LanguageBar from './LanguageBar';
 import { formatJoinDate, normalizeUrl, trimText } from '../utils/formatters';
 
 function InfoItem({ icon: Icon, value, href }) {
@@ -29,7 +30,7 @@ function InfoItem({ icon: Icon, value, href }) {
   );
 }
 
-function ProfileCard({ user }) {
+function ProfileCard({ user, repos = [], onCompare }) {
   const profileStats = [
     {
       label: 'Public Repos',
@@ -56,6 +57,12 @@ function ProfileCard({ user }) {
       color: '#f59e0b'
     }
   ];
+
+  const recentWindow = new Date();
+  recentWindow.setDate(recentWindow.getDate() - 30);
+
+  const activeInLast30Days = repos.filter((repo) => new Date(repo.updated_at) >= recentWindow).length;
+  const lastUpdatedRepo = [...repos].sort((a, b) => new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime())[0];
 
   return (
     <article className="glass-card animate-fade-slide-up w-full max-w-[800px] rounded-3xl p-6 transition duration-300 hover:-translate-y-1 hover:shadow-[0_16px_40px_rgba(37,99,235,0.15)] sm:p-10">
@@ -108,15 +115,45 @@ function ProfileCard({ user }) {
         ))}
       </div>
 
-      <a
-        href={user.html_url}
-        target="_blank"
-        rel="noreferrer"
-        className="mt-8 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-accentBlue to-accentViolet px-6 py-3.5 font-semibold text-white shadow-[0_0_20px_rgba(37,99,235,0.35)] transition duration-200 hover:scale-[1.02] hover:shadow-[0_0_28px_rgba(124,58,237,0.4)]"
-      >
-        <Github size={18} />
-        View Full Profile on GitHub
-      </a>
+      <LanguageBar repos={repos} />
+
+      <div className="glass-card mt-6 rounded-2xl p-4">
+        <div className="inline-flex items-center gap-2 text-sm font-semibold text-textPrimary">
+          <Activity size={16} className="text-accentBlue" />
+          Contribution Activity
+        </div>
+        <div className="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2">
+          <div className="rounded-xl bg-[rgba(13,17,23,0.75)] p-3">
+            <p className="text-xs text-textSecondary">Active repositories (30 days)</p>
+            <p className="mt-1 text-lg font-bold text-textPrimary">{activeInLast30Days}</p>
+          </div>
+          <div className="rounded-xl bg-[rgba(13,17,23,0.75)] p-3">
+            <p className="text-xs text-textSecondary">Most recently updated</p>
+            <p className="mt-1 truncate text-lg font-bold text-textPrimary">{lastUpdatedRepo?.name || 'No repository data'}</p>
+          </div>
+        </div>
+      </div>
+
+      <div className="mt-8 flex flex-col gap-3">
+        <button
+          type="button"
+          onClick={onCompare}
+          className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-[rgba(48,54,61,0.8)] bg-[rgba(13,17,23,0.9)] px-6 py-3.5 font-semibold text-textPrimary transition duration-200 hover:border-[rgba(37,99,235,0.5)] hover:text-accentBlue"
+        >
+          <Swords size={18} />
+          Compare with another user
+        </button>
+
+        <a
+          href={user.html_url}
+          target="_blank"
+          rel="noreferrer"
+          className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-accentBlue to-accentViolet px-6 py-3.5 font-semibold text-white shadow-[0_0_20px_rgba(37,99,235,0.35)] transition duration-200 hover:scale-[1.02] hover:shadow-[0_0_28px_rgba(124,58,237,0.4)]"
+        >
+          <Github size={18} />
+          View Full Profile on GitHub
+        </a>
+      </div>
     </article>
   );
 }

@@ -1,7 +1,15 @@
 import { useEffect, useState } from 'react';
 import { Github, Search } from 'lucide-react';
 
-function SearchBar({ onSearch, suggestions = [], loading = false, initialValue = '' }) {
+function SearchBar({
+  onSearch,
+  suggestions = [],
+  loading = false,
+  initialValue = '',
+  onInputFocus,
+  onInputBlur,
+  onInputChange
+}) {
   const [username, setUsername] = useState(initialValue);
 
   useEffect(() => {
@@ -15,6 +23,7 @@ function SearchBar({ onSearch, suggestions = [], loading = false, initialValue =
 
   const handleSuggestionClick = (value) => {
     setUsername(value);
+    onInputChange?.(value);
     onSearch(value);
   };
 
@@ -35,7 +44,12 @@ function SearchBar({ onSearch, suggestions = [], loading = false, initialValue =
         <input
           type="text"
           value={username}
-          onChange={(event) => setUsername(event.target.value)}
+          onChange={(event) => {
+            setUsername(event.target.value);
+            onInputChange?.(event.target.value);
+          }}
+          onFocus={onInputFocus}
+          onBlur={onInputBlur}
           placeholder="Search username... e.g. torvalds"
           className="h-12 w-full border-none bg-transparent text-base text-textPrimary placeholder:text-textTertiary focus:outline-none"
           disabled={loading}
