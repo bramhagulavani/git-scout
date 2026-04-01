@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { Activity, Building2, CalendarDays, Github, Link as LinkIcon, MapPin, Swords, Twitter } from 'lucide-react';
 import StatCard from './StatCard';
 import LanguageBar from './LanguageBar';
@@ -31,38 +32,45 @@ function InfoItem({ icon: Icon, value, href }) {
 }
 
 function ProfileCard({ user, repos = [], onCompare }) {
-  const profileStats = [
-    {
-      label: 'Public Repos',
-      value: user.public_repos,
-      icon: '📦',
-      color: '#2563eb'
-    },
-    {
-      label: 'Followers',
-      value: user.followers,
-      icon: '👥',
-      color: '#7c3aed'
-    },
-    {
-      label: 'Following',
-      value: user.following,
-      icon: '👤',
-      color: '#10b981'
-    },
-    {
-      label: 'Public Gists',
-      value: user.public_gists,
-      icon: '⭐',
-      color: '#f59e0b'
-    }
-  ];
+  const profileStats = useMemo(
+    () => [
+      {
+        label: 'Public Repos',
+        value: user.public_repos,
+        icon: '📦',
+        color: '#2563eb'
+      },
+      {
+        label: 'Followers',
+        value: user.followers,
+        icon: '👥',
+        color: '#7c3aed'
+      },
+      {
+        label: 'Following',
+        value: user.following,
+        icon: '👤',
+        color: '#10b981'
+      },
+      {
+        label: 'Public Gists',
+        value: user.public_gists,
+        icon: '⭐',
+        color: '#f59e0b'
+      }
+    ],
+    [user.followers, user.following, user.public_gists, user.public_repos]
+  );
 
-  const recentWindow = new Date();
-  recentWindow.setDate(recentWindow.getDate() - 30);
+  const { activeInLast30Days, lastUpdatedRepo } = useMemo(() => {
+    const recentWindow = new Date();
+    recentWindow.setDate(recentWindow.getDate() - 30);
 
-  const activeInLast30Days = repos.filter((repo) => new Date(repo.updated_at) >= recentWindow).length;
-  const lastUpdatedRepo = [...repos].sort((a, b) => new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime())[0];
+    return {
+      activeInLast30Days: repos.filter((repo) => new Date(repo.updated_at) >= recentWindow).length,
+      lastUpdatedRepo: [...repos].sort((a, b) => new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime())[0]
+    };
+  }, [repos]);
 
   return (
     <article className="glass-card animate-fade-slide-up w-full max-w-[800px] rounded-3xl p-6 transition duration-300 hover:-translate-y-1 hover:shadow-[0_16px_40px_rgba(37,99,235,0.15)] sm:p-10">
@@ -72,6 +80,10 @@ function ProfileCard({ user, repos = [], onCompare }) {
             <img
               src={user.avatar_url}
               alt={user.login}
+              loading="lazy"
+              onError={(event) => {
+                event.currentTarget.src = 'https://github.com/identicons/default.png';
+              }}
               className="h-[120px] w-[120px] rounded-full border border-[rgba(48,54,61,0.8)] object-cover shadow-[0_0_30px_rgba(37,99,235,0.3)] transition duration-200 hover:scale-105"
             />
           </div>

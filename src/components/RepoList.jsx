@@ -14,7 +14,16 @@ function RepoList({ repos = [] }) {
   const [sortBy, setSortBy] = useState('stars');
   const [languageFilter, setLanguageFilter] = useState('all');
   const [search, setSearch] = useState('');
+  const [debouncedSearch, setDebouncedSearch] = useState('');
   const [visibleCount, setVisibleCount] = useState(6);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setDebouncedSearch(search);
+    }, 300);
+
+    return () => clearTimeout(timeout);
+  }, [search]);
 
   const languages = useMemo(() => {
     const unique = Array.from(new Set(repos.map((repo) => repo.language).filter(Boolean)));
@@ -22,7 +31,7 @@ function RepoList({ repos = [] }) {
   }, [repos]);
 
   const filteredAndSorted = useMemo(() => {
-    const normalizedSearch = search.trim().toLowerCase();
+    const normalizedSearch = debouncedSearch.trim().toLowerCase();
 
     const filtered = repos.filter((repo) => {
       const languageMatch = languageFilter === 'all' || repo.language === languageFilter;
@@ -53,7 +62,7 @@ function RepoList({ repos = [] }) {
     }
 
     return sorted;
-  }, [repos, languageFilter, search, sortBy]);
+  }, [repos, languageFilter, debouncedSearch, sortBy]);
 
   useEffect(() => {
     setVisibleCount(6);

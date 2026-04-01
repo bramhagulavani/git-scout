@@ -4,8 +4,29 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
+:root,
+html.dark {
   color-scheme: dark;
+  --bg-base: #060910;
+  --bg-card: #0d1117;
+  --glass-card: rgba(13, 17, 23, 0.85);
+  --glass-strong: rgba(6, 9, 16, 0.85);
+  --text-primary: #f0f6fc;
+  --text-secondary: #8b949e;
+  --text-tertiary: #484f58;
+  --border-color: rgba(48, 54, 61, 0.8);
+}
+
+html.light {
+  color-scheme: light;
+  --bg-base: #f0f6fc;
+  --bg-card: #ffffff;
+  --glass-card: rgba(255, 255, 255, 0.85);
+  --glass-strong: rgba(255, 255, 255, 0.85);
+  --text-primary: #0d1117;
+  --text-secondary: #57606a;
+  --text-tertiary: #6e7781;
+  --border-color: rgba(208, 215, 222, 0.8);
 }
 
 * {
@@ -21,10 +42,17 @@ body,
 
 body {
   margin: 0;
-  background: #060910;
-  color: #f0f6fc;
+  background: var(--bg-base);
+  color: var(--text-primary);
   font-family: 'Space Grotesk', sans-serif;
   overflow-x: hidden;
+}
+
+* {
+  transition:
+    background-color 0.3s ease,
+    border-color 0.3s ease,
+    color 0.2s ease;
 }
 
 a {
@@ -62,6 +90,17 @@ a {
   }
 }
 
+@keyframes fadeSlideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 @keyframes countUp {
   from {
     opacity: 0;
@@ -85,6 +124,32 @@ a {
   100% {
     transform: scale(0.95);
     box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+  }
+}
+
+@keyframes glowPulse {
+  0%,
+  100% {
+    box-shadow: 0 0 4px #10b981;
+  }
+  50% {
+    box-shadow:
+      0 0 12px #10b981,
+      0 0 20px #10b981;
+  }
+}
+
+@keyframes numberPop {
+  0% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  70% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
   }
 }
 
@@ -139,9 +204,9 @@ a {
 }
 
 .glass-card {
-  background: rgba(13, 17, 23, 0.85);
+  background: var(--glass-card);
   backdrop-filter: blur(20px);
-  border: 1px solid rgba(48, 54, 61, 0.8);
+  border: 1px solid var(--border-color);
 }
 
 .gradient-text {
@@ -171,7 +236,7 @@ a {
   left: -150px;
   width: 600px;
   height: 600px;
-  background: rgba(37, 99, 235, 0.08);
+  background: rgba(37, 99, 235, 0.1);
   animation: float 8s ease-in-out infinite;
 }
 
@@ -180,8 +245,16 @@ a {
   bottom: -200px;
   width: 500px;
   height: 500px;
-  background: rgba(124, 58, 237, 0.08);
+  background: rgba(124, 58, 237, 0.1);
   animation: float 10s ease-in-out infinite reverse;
+}
+
+html.light .orb-blue {
+  background: rgba(37, 99, 235, 0.12);
+}
+
+html.light .orb-violet {
+  background: rgba(124, 58, 237, 0.12);
 }
 
 .api-live-dot {
@@ -189,7 +262,55 @@ a {
   height: 8px;
   border-radius: 9999px;
   background: #10b981;
+  animation: glowPulse 2s ease-in-out infinite;
+}
+
+.navbar {
+  animation: fadeSlideDown 0.4s ease;
+}
+
+.hero-section {
+  animation: fadeSlideUp 0.5s ease 0.1s both;
+}
+
+.search-bar {
+  animation: fadeSlideUp 0.5s ease 0.2s both;
+}
+
+.trending-chips {
+  animation: fadeSlideUp 0.5s ease 0.3s both;
+}
+
+.page-enter {
+  opacity: 0;
+  transform: translateY(16px);
+}
+
+.page-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: all 0.3s ease;
+}
+
+.theme-toggle .theme-star {
+  position: absolute;
+  height: 2px;
+  width: 2px;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.9);
   animation: pulseDot 1.8s infinite;
+}
+
+.theme-rays {
+  position: absolute;
+  right: 4px;
+  top: 4px;
+  height: 16px;
+  width: 16px;
+  border-radius: 9999px;
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.25),
+    0 0 8px rgba(255, 255, 255, 0.35);
 }
 
 .repo-card {
@@ -249,7 +370,7 @@ a {
 }
 
 ::-webkit-scrollbar-track {
-  background: #060910;
+  background: var(--bg-base);
 }
 
 ::-webkit-scrollbar-thumb {

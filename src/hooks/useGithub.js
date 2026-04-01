@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import axios from 'axios';
 
 const GITHUB_BASE_URL = 'https://api.github.com/users';
@@ -11,7 +11,7 @@ export function useGithub() {
   const [error, setError] = useState('');
   const [errorType, setErrorType] = useState('generic');
 
-  const fetchUser = async (username) => {
+  const fetchUser = useCallback(async (username) => {
     setLoading(true);
     setError('');
     setErrorType('generic');
@@ -53,7 +53,15 @@ export function useGithub() {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
+
+  const clearData = useCallback(() => {
+    setUserData(null);
+    setTopRepos([]);
+    setError('');
+    setErrorType('generic');
+    setLoading(false);
+  }, []);
 
   return {
     userData,
@@ -61,6 +69,7 @@ export function useGithub() {
     loading,
     error,
     errorType,
-    fetchUser
+    fetchUser,
+    clearData
   };
 }

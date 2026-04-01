@@ -1,107 +1,74 @@
-# GitScout
+# GitScout - GitHub Profile Finder
 
-A premium GitHub Profile Finder and comparison app built with React, Vite, and Tailwind CSS.
+GitScout is a premium GitHub profile discovery experience built for developers. Search any GitHub username, inspect profile insights, explore repositories with filters and language breakdowns, compare two developers side by side, and navigate the app fast with keyboard-first controls.
 
-## Overview
-GitScout lets users search GitHub profiles, explore repositories with rich filtering and language insights, review recent search history, and compare two developers side by side with winner highlights.
+## Features
 
-## Completed Features
+- Instant GitHub profile search with curated quick suggestions
+- Rich profile card with bio, social links, join date, and activity insights
+- Stat cards with polished count animations
+- Loading, empty, and error states with clear UX feedback
+- Toast notifications for key app events
+- Repository explorer with sorting, language filter, search, and load-more pagination
+- Language distribution visualization with weighted percentages
+- Search history with localStorage persistence and quick replay
+- Compare mode for two GitHub profiles with winner highlights
+- Dark and light theme toggle with saved preference
+- Keyboard shortcuts modal and global app shortcuts
+- Scroll-to-top floating action button
+- Custom 404 page with branded visuals and call-to-action buttons
+- PWA manifest and robots.txt support
+- SEO and social metadata in HTML head
+- Lazy loading and memoization improvements for smoother runtime performance
 
-### Phase 1
-- Vite + React 18 + Tailwind CSS project setup
-- Premium hero search experience with suggestion chips
-- GitHub API integration through axios
-- Profile hero card with identity, bio, metadata, and stats
-- Loading skeleton, empty state, and error state
-- Toast notification system with custom styling
-- Dark glassmorphism UI with animated gradient background orbs
+## Live Demo
 
-### Phase 2
-- Repository list section with:
-	- sorting (stars, updated date, name, forks)
-	- language filter
-	- live text filtering
-	- incremental load more behavior
-- Repository cards with language dot, visibility/fork badge, stats, and copy-link action
-- Language distribution bar with animated segment fill and legend chips
-- Contribution activity summary in profile card
-- Upgraded user-not-found experience with quick-search suggestions
-- Search history dropdown powered by localStorage
-- Compare mode with side-by-side profile match-up and category winners:
-	- followers winner
-	- public repos winner
-	- total stars winner
+[gitscout.vercel.app](https://gitscout.vercel.app)
 
 ## Tech Stack
-- React 18
-- Vite 5
-- Tailwind CSS 3
-- axios
+
+- React 18 + Vite
+- Tailwind CSS
+- GitHub REST API
 - react-hot-toast
 - lucide-react
+- axios
 
-## Getting Started
+## Installation
 
-### 1. Install dependencies
 ```bash
+git clone https://github.com/your-username/git-scout.git
+cd git-scout
 npm install
-```
-
-### 2. Start development server
-```bash
 npm run dev
 ```
 
-### 3. Build for production
-```bash
-npm run build
-```
+## Usage
 
-### 4. Preview production build
-```bash
-npm run preview
-```
+- Enter a GitHub username in the search bar and press Enter.
+- Use Compare mode to evaluate two profiles by followers, repos, and stars.
+- Use keyboard shortcuts:
+- `/` or `Ctrl+K` focus search
+- `?` open shortcuts modal
+- `T` toggle theme
+- `C` toggle compare mode
+- `H` return home/clear state
+- `Arrow Up/Down` browse search history
 
-## API Endpoints Used
-- User profile:
-	- https://api.github.com/users/{username}
-- User repositories (used for repo list, language stats, compare metrics):
-	- https://api.github.com/users/{username}/repos?sort=updated&per_page=100
+## Deploy
 
-## Persistence
-- Search history key:
-	- gitscout_search_history
+### Vercel Steps
 
-## Project Structure
-```text
-src/
-├── components/
-│   ├── Navbar.jsx
-│   ├── SearchBar.jsx
-│   ├── ProfileCard.jsx
-│   ├── StatCard.jsx
-│   ├── LoadingCard.jsx
-│   ├── ErrorCard.jsx
-│   ├── RepoCard.jsx
-│   ├── RepoList.jsx
-│   ├── LanguageBar.jsx
-│   ├── SearchHistory.jsx
-│   └── CompareMode.jsx
-├── hooks/
-│   └── useGithub.js
-├── utils/
-│   ├── formatters.js
-│   └── languageColors.js
-├── App.jsx
-├── main.jsx
-└── index.css
-```
+1. Run `npm run build` locally.
+2. Run `npm run preview` to validate production output.
+3. Go to [vercel.com](https://vercel.com) and import the `git-scout` repository.
+4. Confirm framework preset: `Vite` (auto-detected).
+5. Set build command: `npm run build`.
+6. Set output directory: `dist`.
+7. Click Deploy.
 
-## Scripts
-- npm run dev: start development server
-- npm run build: generate production build
-- npm run preview: preview production build locally
+Your app will be live at `gitscout.vercel.app`.
 
-## Notes
-- Built against GitHub public REST API without auth.
-- If GitHub rate limits are reached, retry after cooldown.
+## License
+
+MIT

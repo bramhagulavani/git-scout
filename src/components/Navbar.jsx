@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
-import { Crosshair, Github, Star } from 'lucide-react';
+import { Crosshair, Github, Keyboard, Star } from 'lucide-react';
+import ThemeToggle from './ThemeToggle';
 
-function Navbar({ onToggleCompare, compareMode = false }) {
+function Navbar({ onToggleCompare, compareMode = false, onOpenShortcuts }) {
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
@@ -15,13 +16,13 @@ function Navbar({ onToggleCompare, compareMode = false }) {
 
   return (
     <header
-      className={`fixed left-0 right-0 top-0 z-50 border-b border-[rgba(48,54,61,0.8)] bg-[rgba(6,9,16,0.85)] backdrop-blur-[20px] transition-shadow duration-300 ${
+      className={`navbar fixed left-0 right-0 top-0 z-50 border-b border-[rgba(48,54,61,0.8)] bg-[var(--glass-strong)] backdrop-blur-[20px] transition-shadow duration-300 ${
         isScrolled ? 'shadow-[0_8px_28px_rgba(0,0,0,0.45)]' : 'shadow-none'
       }`}
     >
       <nav className="mx-auto flex h-[72px] w-full max-w-6xl items-center justify-between px-5 sm:px-8">
         <a href="/" className="font-display text-xl font-extrabold tracking-tight sm:text-2xl">
-          <span className="gradient-text">{'{ GitFinder }'}</span>
+          <span className="gradient-text">{'{ GitScout }'}</span>
         </a>
 
         <div className="flex items-center gap-2">
@@ -38,11 +39,24 @@ function Navbar({ onToggleCompare, compareMode = false }) {
             <span className="hidden sm:inline">Compare</span>
           </button>
 
+          <button
+            type="button"
+            onClick={onOpenShortcuts}
+            className="inline-flex items-center gap-2 rounded-xl border border-[rgba(48,54,61,0.8)] bg-[var(--bg-card)] px-3 py-2 text-sm text-textSecondary transition duration-200 hover:border-[rgba(37,99,235,0.5)] hover:text-textPrimary"
+            title="Keyboard shortcuts (?)"
+            aria-label="Open keyboard shortcuts"
+          >
+            <Keyboard size={16} />
+            <span className="hidden sm:inline">Shortcuts</span>
+          </button>
+
+          <ThemeToggle />
+
           <a
             href="https://github.com"
             target="_blank"
             rel="noreferrer"
-            className="group inline-flex items-center gap-3 rounded-xl border border-[rgba(48,54,61,0.8)] bg-[rgba(13,17,23,0.9)] px-4 py-2 text-sm text-textSecondary transition duration-200 hover:border-[rgba(37,99,235,0.5)] hover:text-textPrimary"
+            className="group inline-flex items-center gap-3 rounded-xl border border-[rgba(48,54,61,0.8)] bg-[var(--bg-card)] px-4 py-2 text-sm text-textSecondary transition duration-200 hover:border-[rgba(37,99,235,0.5)] hover:text-textPrimary"
           >
             <div className="inline-flex items-center gap-2">
               <Github size={16} />

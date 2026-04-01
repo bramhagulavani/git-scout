@@ -44,7 +44,15 @@ function CompareCard({ title, user, repos, winners, side }) {
       } ${winnerGlow ? 'shadow-[0_0_24px_rgba(16,185,129,0.25)] border-[rgba(16,185,129,0.5)]' : ''}`}
     >
       <div className="flex items-center gap-3">
-        <img src={user.avatar_url} alt={user.login} className="h-14 w-14 rounded-full border border-[rgba(48,54,61,0.8)] object-cover" />
+        <img
+          src={user.avatar_url}
+          alt={user.login}
+          loading="lazy"
+          onError={(event) => {
+            event.currentTarget.src = 'https://github.com/identicons/default.png';
+          }}
+          className="h-14 w-14 rounded-full border border-[rgba(48,54,61,0.8)] object-cover"
+        />
         <div className="min-w-0">
           <h4 className="truncate font-display text-lg font-bold text-textPrimary">{user.name || user.login}</h4>
           <p className="truncate text-sm text-accentBlue">@{user.login}</p>

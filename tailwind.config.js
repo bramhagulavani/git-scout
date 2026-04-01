@@ -4,14 +4,14 @@ export default {
   theme: {
     extend: {
       colors: {
-        bgBase: '#060910',
-        bgCard: '#0d1117',
+        bgBase: 'var(--bg-base)',
+        bgCard: 'var(--bg-card)',
         accentBlue: '#2563eb',
         accentViolet: '#7c3aed',
-        textPrimary: '#f0f6fc',
-        textSecondary: '#8b949e',
-        textTertiary: '#484f58',
-        borderSubtle: 'rgba(48, 54, 61, 0.8)',
+        textPrimary: 'var(--text-primary)',
+        textSecondary: 'var(--text-secondary)',
+        textTertiary: 'var(--text-tertiary)',
+        borderSubtle: 'var(--border-color)',
         success: '#10b981',
         warning: '#f59e0b',
         danger: '#ef4444'

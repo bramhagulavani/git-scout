@@ -28,7 +28,7 @@ function SearchBar({
   };
 
   return (
-    <section className="animate-fade-slide-up relative z-10 mx-auto w-full max-w-4xl text-center">
+    <section className="hero-section relative z-10 mx-auto w-full max-w-4xl text-center">
       <h1 className="font-display text-4xl font-extrabold tracking-tight text-textPrimary sm:text-5xl">
         <span className="gradient-text">Discover GitHub Profiles</span>
       </h1>
@@ -37,11 +37,12 @@ function SearchBar({
 
       <form
         onSubmit={submitSearch}
-        className="mx-auto mt-8 flex w-full items-center gap-3 rounded-2xl border border-[rgba(48,54,61,0.8)] bg-[rgba(13,17,23,0.9)] p-[8px_8px_8px_20px] backdrop-blur-[20px]"
+        className="search-bar mx-auto mt-8 flex w-full items-center gap-3 rounded-2xl border border-[rgba(48,54,61,0.8)] bg-[var(--bg-card)] p-[8px_8px_8px_20px] backdrop-blur-[20px]"
       >
         <Github size={20} className="shrink-0 text-textSecondary" />
 
         <input
+          id="gitscout-search-input"
           type="text"
           value={username}
           onChange={(event) => {
@@ -65,7 +66,7 @@ function SearchBar({
         </button>
       </form>
 
-      <div className="mt-5 flex flex-wrap items-center justify-center gap-2 text-sm text-textSecondary">
+      <div className="trending-chips mt-5 flex flex-wrap items-center justify-center gap-2 text-sm text-textSecondary">
         <span className="mr-1">Try:</span>
         {suggestions.map((suggestion) => (
           <button
